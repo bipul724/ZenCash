@@ -13,6 +13,9 @@ import {
 } from "@/components/ui/select";
 import useFetch from '@/hooks/useFetch';
 import { createTransaction } from '@/actions/transaction';
+import { Input } from '@/components/ui/input';
+import CreateAccountDrawer from '@/components/createAccountDrawer';
+import { Button } from '@/components/ui/button';
 
 export function AddTransactionForm({accounts,categories}) {
 
@@ -48,7 +51,7 @@ export function AddTransactionForm({accounts,categories}) {
   const date = watch("date");
 
   return (
-    <form>
+    <form className='space-y-6' >
       {/*AI Receipt Scanner */}
       {/* Type */}
       <div className="space-y-2">
@@ -68,6 +71,52 @@ export function AddTransactionForm({accounts,categories}) {
         {errors.type && (
           <p className="text-sm text-red-500">{errors.type.message}</p>
         )}
+      </div>
+
+
+      <div className="grid gap-6 md:grid-cols-2">
+        <div className="space-y-2">
+        <label className="text-sm font-medium">Amount</label>
+        <Input
+          type="number"
+          step="0.01"
+          placeholder="0.00"
+          {...register("amount")}
+        />
+        {errors.amount && (
+          <p className="text-sm text-red-500">{errors.amount.message}</p>
+        )}
+        </div>
+
+        <div className="space-y-2">
+          <label className="text-sm font-medium">Account</label>
+          <Select
+            onValueChange={(value) => setValue("accountId", value)}
+            defaultValue={getValues("accountId")}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Select account" />
+            </SelectTrigger>
+            <SelectContent>
+              {accounts.map((account) => (
+                <SelectItem key={account.id} value={account.id}>
+                  {account.name} (${parseFloat(account.balance).toFixed(2)})
+                </SelectItem>
+              ))}
+              <CreateAccountDrawer>
+                <Button
+                  variant="ghost"
+                  className="relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none hover:bg-accent hover:text-accent-foreground"
+                >
+                  Create Account
+                </Button>
+              </CreateAccountDrawer>
+            </SelectContent>
+          </Select>
+          {errors.accountId && (
+            <p className="text-sm text-red-500">{errors.accountId.message}</p>
+          )}
+        </div>
       </div>
 
       
