@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import CreateAccountDrawer from '@/components/createAccountDrawer';
 import { Card, CardContent } from '@/components/ui/card';
 import { Plus } from 'lucide-react';
@@ -6,6 +6,7 @@ import { getDashboardData, getUserAccounts, getUserAcounts } from '@/actions/das
 import AccountCard from './_components/AccountCard';
 import { BudgetProgress } from './_components/BudgetProgress';
 import { getCurrentBudget } from '@/actions/budget';
+import { DashboardOverview } from './_components/transaction-overview';
 
 const DashboardPage = async () => {
   const [accounts, transactions] = await Promise.all([
@@ -31,6 +32,13 @@ const DashboardPage = async () => {
 
 
       {/*Overview */}
+        <Suspense fallback={"Loading overview..."}>
+          <DashboardOverview
+        accounts={accounts}
+        transactions={transactions || []}
+      />
+        </Suspense>
+
 
       {/*Accounts grid */}
       {/* <div className='grid gap-4'>

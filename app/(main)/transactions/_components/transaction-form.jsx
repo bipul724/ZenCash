@@ -51,39 +51,48 @@ export function AddTransactionForm({
     reset,
   } = useForm({
     resolver: zodResolver(transactionSchema),
-    defaultValues: {
-      type: "EXPENSE",
-      amount: "",
-      description: "",
-      accountId: accounts.find((ac) => ac.isDefault)?.id,
-      date: new Date(),
-      isRecurring: false,
-    }
+    defaultValues:
+      editMode && initialData
+        ? {
+            type: initialData.type,
+            amount: initialData.amount.toString(),
+            description: initialData.description,
+            accountId: initialData.accountId,
+            category: initialData.category,
+            date: new Date(initialData.date),
+            isRecurring: initialData.isRecurring,
+            ...(initialData.recurringInterval && {
+              recurringInterval: initialData.recurringInterval,
+            }),
+          }
+        : {
+            type: "EXPENSE",
+            amount: "",
+            description: "",
+            accountId: accounts.find((ac) => ac.isDefault)?.id,
+            date: new Date(),
+            isRecurring: false,
+          },
   });
+
 
   const {
     loading: transactionLoading,
     fn: transactionFn,
     data: transactionResult,
     error: transactionError,
-  } = useFetch(createTransaction);
+  } = useFetch(editMode ? updateTransaction : createTransaction);
 
-  const onSubmit = async (data) => {
-    try {
-      console.log("Form submitted with data:", data); // Debug log
-      
-      const formData = {
-        ...data,
-        amount: parseFloat(data.amount),
-      };
+  const onSubmit = (data) => {
+    const formData = {
+      ...data,
+      amount: parseFloat(data.amount),
+    };
 
-      console.log("Processed form data:", formData); // Debug log
-
-      // Call the transaction function
-      await transactionFn(formData);
-    } catch (error) {
-      console.error("Error in onSubmit:", error);
-      toast.error("Failed to create transaction");
+    if (editMode) {
+      transactionFn(editId, formData);
+    } else {
+      transactionFn(formData);
     }
   };
 
@@ -102,16 +111,17 @@ export function AddTransactionForm({
   };
 
   useEffect(() => {
-    
-
     if (transactionResult?.success && !transactionLoading) {
-      toast.success("Transaction created successfully");
+      toast.success(
+        editMode
+          ? "Transaction updated successfully"
+          : "Transaction created successfully"
+      );
       reset();
       router.push(`/account/${transactionResult.data.accountId}`);
-    } else if (transactionError && !transactionLoading) {
-      toast.error(transactionError.message || "Failed to create transaction");
     }
-  }, [transactionResult, transactionLoading, transactionError, reset, router]);
+  }, [transactionResult, transactionLoading, editMode]);
+
 
   const type = watch("type");
   const isRecurring = watch("isRecurring");
@@ -127,8 +137,7 @@ export function AddTransactionForm({
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
 
       {/*AI Receipt Scanner */}
-      <ReceiptScanner onScanComplete={handleScanComplete}/>
-
+      {!editMode && <ReceiptScanner onScanComplete={handleScanComplete} />}
       {/* Type - Full Width */}
       <div className="space-y-2">
         <label className="text-sm font-medium">Type</label>
@@ -305,20 +314,23 @@ export function AddTransactionForm({
       )}
 
       {/* Actions - Half and Half */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="flex gap-4">
         <Button
           type="button"
           variant="outline"
+          className="w-full"
           onClick={() => router.back()}
         >
           Cancel
         </Button>
-        <Button type="submit" disabled={transactionLoading}>
+        <Button type="submit" className="w-full" disabled={transactionLoading}>
           {transactionLoading ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Creating...
+              {editMode ? "Updating..." : "Creating..."}
             </>
+          ) : editMode ? (
+            "Update Transaction"
           ) : (
             "Create Transaction"
           )}
