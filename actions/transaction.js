@@ -15,7 +15,9 @@ const serializeAmount = (obj) => ({
 export async function createTransaction(data){
     try {
         const { userId } = await auth();
-          if (!userId) throw new Error("Unauthorized");
+          if (!userId){ 
+            throw new Error("Unauthorized");
+          }
 
           //Arcjet to add rate limiting
           const req = await request();
@@ -90,7 +92,8 @@ export async function createTransaction(data){
          revalidatePath(`/account/${transaction.accountId}`);
 
          return {success : true,data:serializeAmount(transaction)};
-    } catch (error) {
+    } 
+    catch (error) {
         throw new Error(error.message);
     }
 }
@@ -120,11 +123,12 @@ function calculateNextRecurringDate(startDate, interval) {
 // Scan Receipt
 export async function scanReceipt(file) {
   try {
-    const model = genAi.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const model = genAi.getGenerativeModel({ model: "gemini-2.5-pro" });
 
     // Convert File to ArrayBuffer
     const arrayBuffer = await file.arrayBuffer();
     // Convert ArrayBuffer to Base64
+    // Image needs to get converted into base64 before sending it to gemini
     const base64String = Buffer.from(arrayBuffer).toString("base64");
 
     const prompt = `
@@ -133,7 +137,9 @@ export async function scanReceipt(file) {
       - Date (in ISO format)
       - Description or items purchased (brief summary)
       - Merchant/store name
-      - Suggested category (one of: housing,transportation,groceries,utilities,entertainment,food,shopping,healthcare,education,personal,travel,insurance,gifts,bills,other-expense )
+      - Suggested category (one of: housing,transportation,
+      groceries,utilities,entertainment,food,shopping,healthcare,
+      education,personal,travel,insurance,gifts,bills,other-expense )
       
       Only respond with valid JSON in this exact format:
       {
@@ -182,13 +188,17 @@ export async function scanReceipt(file) {
 
 export async function getTransaction(id) {
   const { userId } = await auth();
-  if (!userId) throw new Error("Unauthorized");
+  if (!userId){
+     throw new Error("Unauthorized Access.");
+  }
 
   const user = await db.user.findUnique({
     where: { clerkUserId: userId },
   });
 
-  if (!user) throw new Error("User not found");
+  if (!user){
+    throw new Error("User not found");
+  } 
 
   const transaction = await db.transaction.findUnique({
     where: {
@@ -270,7 +280,8 @@ export async function updateTransaction(id, data) {
     revalidatePath(`/account/${data.accountId}`);
 
     return { success: true, data: serializeAmount(transaction) };
-  } catch (error) {
+  } 
+  catch (error) {
     throw new Error(error.message);
   }
 }
