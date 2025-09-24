@@ -11,11 +11,12 @@ import {
 } from "@/components/ui/card"
 import { Switch } from '@/components/ui/switch';
 import { parse } from 'date-fns';
-import { ArrowDownRight, ArrowUpRight } from 'lucide-react';
+import { ArrowDownRight, ArrowUpRight, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import useFetch from '@/hooks/useFetch';
-import { updateDefaultAccount } from '@/actions/accounts';
+import { updateDefaultAccount, deleteAccount } from '@/actions/accounts';
 import { toast } from 'sonner';
+import { Button } from '@/components/ui/button';
 
 const AccountCard = ({ account }) => {
     const { name, type , balance , id , isDefault } = account;
@@ -26,6 +27,12 @@ const AccountCard = ({ account }) => {
     error,
     data: updatedAccount,
     } = useFetch(updateDefaultAccount);
+
+    const {
+      loading: deleteLoading,
+      fn: deleteAccountFn,
+      data: deleteResult,
+    } = useFetch(deleteAccount);
 
     const handleDefaultChange = async (event) => {
         event.preventDefault();
@@ -49,12 +56,27 @@ const AccountCard = ({ account }) => {
       }
     }, [error]);
 
+    const onDelete = async (e) => {
+      e.preventDefault();
+      const confirmed = window.confirm('Delete this account? This will also delete its transactions.');
+      if (!confirmed) return;
+      const res = await deleteAccountFn(id);
+      if (res?.success) {
+        toast.success('Account deleted');
+      }
+    }
+
   return (
     <Card className="hover:shadow-md transition-shadow group relative">
       <Link href={`/account/${id}`}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm  font-medium">{name}</CardTitle>
-        <Switch checked={isDefault} onClick={handleDefaultChange} disabled={updateDefaultLoading} />
+        <div className="flex items-center gap-2">
+          <Switch checked={isDefault} onClick={handleDefaultChange} disabled={updateDefaultLoading} />
+          <Button size="icon" variant="outline" onClick={onDelete} disabled={deleteLoading}>
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        </div>
       </CardHeader>
       <CardContent>
         <div className='text-2xl font-bold'>

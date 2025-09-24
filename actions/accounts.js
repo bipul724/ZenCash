@@ -143,3 +143,47 @@ export async function bulkDeleteTransactions(transactionIds) {
   }
 
 }
+
+export async function deleteAccount(accountId){
+    try{
+        const {userId} = await auth();
+        if(!userId){
+            throw new Error("Unauthorized");
+        }
+
+        const user = await db.user.findUnique({
+            where : {clerkUserId : userId},
+        });
+
+        if(!user){
+            throw new Error("User not found");
+        }
+
+        // Ensure the account belongs to the user
+        const account = await db.account.findUnique({
+            where : { id: accountId, userId: user.id },
+            include: { _count: { select: { transactions: true } } },
+        });
+
+        if(!account){
+            throw new Error("Account not found");
+        }
+
+        // Optional: prevent deleting default account if it's the only one
+        const userAccountsCount = await db.account.count({ where: { userId: user.id } });
+        if (userAccountsCount <= 1) {
+            throw new Error("You must have at least one account.");
+        }
+
+        // Delete all transactions of the account first to respect FK constraints
+        await db.$transaction(async(tx)=>{
+            await tx.transaction.deleteMany({ where: { accountId: account.id } });
+            await tx.account.delete({ where: { id: account.id } });
+        });
+
+        revalidatePath("/dashboard");
+        return {success:true};
+    }catch(error){
+        return {success:false,error:error.message};
+    }
+}
