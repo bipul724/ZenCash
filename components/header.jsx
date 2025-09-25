@@ -11,11 +11,11 @@ const Header = async () => {
 
   await checkUser();
   return (
-    <div className="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b">
+    <div className="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b border-gray-800">
       <nav className="w-full px-3 py-3 flex items-center justify-between">
         <Link href="/">
           <Image
-            src="/cover.png"
+            src="/cover1.png"
             alt="Logo"
             width={100}
             height={100}
