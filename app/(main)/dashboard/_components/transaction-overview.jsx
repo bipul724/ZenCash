@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { SelectIcon } from "@radix-ui/react-select";
 
 const COLORS = [
   "#FF6B6B",
@@ -79,17 +80,26 @@ export function DashboardOverview({ accounts, transactions }) {
   return (
     <div className="grid gap-4 md:grid-cols-2">
       {/* Recent Transactions Card */}
-      <Card>
+      <Card className="bg-black border-gray-800 text-white">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
-          <CardTitle className="text-base font-normal">
+          <CardTitle className="text-base text-yellow-400 font-normal">
             Recent Transactions
           </CardTitle>
           <Select
             value={selectedAccountId}
             onValueChange={setSelectedAccountId}
           >
-            <SelectTrigger className="w-[140px]">
+            <SelectTrigger 
+              className="
+                w-[200px]
+                bg-white text-black border border-gray-700
+                focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/70
+                focus:shadow-[0_0_12px_2px_rgba(34,211,238,0.8)]
+                transition-all duration-300
+              "
+            >
               <SelectValue placeholder="Select account" />
+              
             </SelectTrigger>
             <SelectContent>
               {accounts.map((account) => (
@@ -145,15 +155,15 @@ export function DashboardOverview({ accounts, transactions }) {
       </Card>
 
       {/* Expense Breakdown Card */}
-      <Card>
+      <Card className="bg-black border-gray-800 ">
         <CardHeader>
-          <CardTitle className="text-base font-normal">
+          <CardTitle className="text-base text-orange-400 font-normal">
             Monthly Expense Breakdown
           </CardTitle>
         </CardHeader>
         <CardContent className="p-0 pb-5">
           {pieChartData.length === 0 ? (
-            <p className="text-center text-muted-foreground py-4">
+            <p className="text-center text-yellow-400 text-muted-foreground py-4">
               No expenses this month
             </p>
           ) : (

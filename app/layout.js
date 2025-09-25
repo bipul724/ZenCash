@@ -23,12 +23,13 @@ export default function RootLayout({ children }) {
           </main>
           <Toaster richColors/>
         
-        <footer className="bg-blue-50 py-12">
-          <div className="container mx-auto px-4 text-center 
-           text-gray-600">
-            Made by Bipul.corp
+        <footer className="bg-gradient-to-r from-black via-gray-900 to-black py-12">
+          <div className="container mx-auto px-4 text-center text-gray-300">
+             Made by Bipul.corp
           </div>
         </footer>
+
+
       </body>
     </html>
     </ClerkProvider>

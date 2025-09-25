@@ -63,10 +63,10 @@ export function BudgetProgress({ initialBudget, currentExpenses }) {
   }, [error]);
 
   return (
-    <Card>
+    <Card className="bg-black border-gray-800 text-white">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <div className="flex-1">
-          <CardTitle className="text-sm font-medium">
+          <CardTitle className="text-sm font-medium text-yellow-400">
             Monthly Budget (Default Account)
           </CardTitle>
           <div className="flex items-center gap-2 mt-1">
@@ -113,7 +113,7 @@ export function BudgetProgress({ initialBudget, currentExpenses }) {
                   onClick={() => setIsEditing(true)}
                   className="h-6 w-6"
                 >
-                  <Pencil className="h-3 w-3" />
+                  <Pencil className="h-3 w-3 text-cyan-400" />
                 </Button>
               </>
             )}
@@ -135,7 +135,7 @@ export function BudgetProgress({ initialBudget, currentExpenses }) {
                 style={{ width: `${Math.min(percentUsed, 100)}%` }}
               />
             </div>
-            <p className="text-xs text-muted-foreground text-right">
+            <p className="text-xs text-white text-muted-foreground text-right">
               {percentUsed.toFixed(1)}% used
             </p>
           </div>
