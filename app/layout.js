@@ -1,6 +1,6 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/header";
+import Header from "@/components/navbar";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "sonner";
 
@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
   return (
     <ClerkProvider>
     <html lang="en" className="dark">
-      <body className={`${inter.className}`} suppressHydrationWarning={true}>
+      <body className={`${inter.className}`} >
         <Header></Header>
         <main className="min-h-screen">
             {children}

@@ -79,7 +79,7 @@ export function DashboardOverview({ accounts, transactions }) {
 
   return (
     <div className="grid gap-4 md:grid-cols-2">
-      {/* Recent Transactions Card */}
+      {/* Recent Transactions Card (Left side card on the screen)*/}
       <Card className="bg-black border-gray-800 text-white">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
           <CardTitle className="text-base text-yellow-400 font-normal">
@@ -92,7 +92,7 @@ export function DashboardOverview({ accounts, transactions }) {
             <SelectTrigger 
               className="
                 w-[200px]
-                bg-white text-black border border-gray-700
+                bg-gray-800 text-white border border-gray-700
                 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/70
                 focus:shadow-[0_0_12px_2px_rgba(34,211,238,0.8)]
                 transition-all duration-300
@@ -154,7 +154,7 @@ export function DashboardOverview({ accounts, transactions }) {
         </CardContent>
       </Card>
 
-      {/* Expense Breakdown Card */}
+      {/* Expense Breakdown Card (Right side card on the screen)*/}
       <Card className="bg-black border-gray-800 ">
         <CardHeader>
           <CardTitle className="text-base text-orange-400 font-normal">

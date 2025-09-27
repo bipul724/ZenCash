@@ -8,30 +8,29 @@ import {
   statsData,
   testimonialsData,
 } from "@/data/landing";
-import HeroSection from "@/components/hero";
 import Link from "next/link";
+// import HeroSection from "@/components/hero";
+
+import Header from "@/components/navbar";
+import { HeroScrollDemo } from "@/components/HeroScrollDemo";
+import StatsSection from "@/components/StatsSection";
+import { AnimatedTestimonialsDemo } from "@/components/Testimonials";
+import { GridBackgroundDemo } from "@/components/GridBackgroundDemo";
 
 
 export default function Home() {
+
+
+
   return (
     <div className="mt-20">
-      <HeroSection />
+      {/* Grid Background Section */}
+
+      <HeroScrollDemo />
 
       {/* Stats Section */}
-      <section className="py-20 bg-blue-50">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {statsData.map((stat, index) => (
-              <div key={index} className="text-center">
-                <div className="text-4xl font-bold text-blue-600 mb-2">
-                  {stat.value}
-                </div>
-                <div className="text-gray-600">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      
+      <StatsSection />
 
       {/* Features Section */}
      <section id="features" className="py-20 bg-black relative overflow-hidden">
@@ -118,27 +117,13 @@ export default function Home() {
     </div>
 
     {/* Bottom call-to-action */}
-    <div className="text-center mt-16">
-      <div className="inline-flex flex-col sm:flex-row gap-4 items-center">
-        <button className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-xl hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 hover:shadow-[0_0_25px_rgba(34,211,238,0.4)] hover:-translate-y-1 transform">
-          Start Free Trial
-        </button>
-        <span className="text-gray-500">or</span>
-        <button className="px-8 py-4 border border-gray-600 text-gray-300 font-semibold rounded-xl hover:border-cyan-400 hover:text-cyan-300 transition-all duration-300 hover:shadow-[0_0_15px_rgba(34,211,238,0.2)]">
-          View All Features
-        </button>
-      </div>
-      
-      <p className="text-sm text-gray-500 mt-4">
-        No credit card required • 14-day free trial • Cancel anytime
-      </p>
-    </div>
+    
   </div>
 </section>
 
 
       {/* How It Works Section */}
-      <section className="py-20 bg-black relative overflow-hidden">
+      <section className="py-5 bg-black relative overflow-hidden">
   {/* Background decorative elements */}
   <div className="absolute inset-0 opacity-10">
     <div className="absolute top-1/4 left-10 w-32 h-32 bg-cyan-400 rounded-full blur-3xl"></div>
@@ -212,69 +197,81 @@ export default function Home() {
     </div>
 
     {/* Call to action */}
-    <div className="text-center mt-16">
-      <button className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-xl hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 hover:shadow-[0_0_20px_rgba(34,211,238,0.5)] hover:-translate-y-1 transform">
-        Get Started Now
-      </button>
-    </div>
+   <div className="text-center mt-16">
+  <Link 
+    href="/pricing"
+    className="inline-block px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 
+    text-white font-semibold rounded-xl hover:from-cyan-400 hover:to-blue-500 
+    transition-all duration-300 hover:shadow-[0_0_20px_rgba(34,211,238,0.5)] hover:-translate-y-1 transform"
+  >
+    Get Started Now
+  </Link>
+</div>
   </div>
 </section>
 
 
       {/* Testimonials Section */}
-      <section id="testimonials" className="py-20">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-16">
-            What Our Users Say
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonialsData.map((testimonial, index) => (
-              <Card key={index} className="p-6">
-                <CardContent className="pt-4">
-                  <div className="flex items-center mb-4">
-                    <Image
-                      src={testimonial.image}
-                      alt={testimonial.name}
-                      width={40}
-                      height={40}
-                      className="rounded-full"
-                    />
-                    <div className="ml-4">
-                      <div className="font-semibold">{testimonial.name}</div>
-                      <div className="text-sm text-gray-600">
-                        {testimonial.role}
-                      </div>
-                    </div>
-                  </div>
-                  <p className="text-gray-600">{testimonial.quote}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
+     <section id="testimonials" className="py-5 bg-black">
+  <div className="container mx-auto px-4">
+    <h2 className="text-3xl font-bold text-center mb-16 text-white">
+      What Our Users Say
+    </h2>
+    <AnimatedTestimonialsDemo />
+    
+  </div>
+</section>
+
+      
+
 
       {/* CTA Section */}
-      <section className="py-20 bg-emerald-600">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">
-            Ready to Take Control of Your Finances?
-          </h2>
-          <p className="text-white mb-8 max-w-2xl mx-auto">
-            Join thousands of users who are already managing their finances
-            smarter with Welth
-          </p>
-          <Link href="/dashboard">
-            <Button
-              size="lg"
-              className="bg-white text-emerald-600 hover:bg-blue-50 animate-bounce"
-            >
-              Start Free Trial
-            </Button>
-          </Link>
-        </div>
-      </section>
+      <section className="relative py-5 bg-black">
+  <div className="container mx-auto px-6">
+    <div className="bg-gradient-to-b from-neutral-900 to-black rounded-3xl shadow-2xl p-10 text-center max-w-3xl mx-auto border border-neutral-800 transition-all duration-500 hover:shadow-[0_0_50px_rgba(34,211,238,0.3)] hover:border-cyan-400/50 hover:bg-gradient-to-b hover:from-neutral-900/90 hover:to-black/90 group relative overflow-hidden">
+      
+      {/* Animated glow overlay */}
+      <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-500/5 via-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+      
+      {/* Corner accent lights */}
+      <div className="absolute top-0 left-0 w-20 h-20 bg-gradient-to-br from-cyan-400/20 to-transparent rounded-br-full opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+      <div className="absolute bottom-0 right-0 w-20 h-20 bg-gradient-to-tl from-blue-400/20 to-transparent rounded-tl-full opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+      
+      {/* Content - relative positioning for z-index */}
+      <div className="relative z-10">
+        <h2 className="text-4xl font-extrabold text-white mb-4 group-hover:text-cyan-100 transition-colors duration-300">
+          Ready to Take Control of Your Finances?
+        </h2>
+        <p className="text-gray-400 mb-8 max-w-xl mx-auto group-hover:text-gray-300 transition-colors duration-300">
+          Join thousands of users who are already managing their finances
+          smarter with <span className="text-white font-semibold group-hover:text-cyan-300 transition-colors duration-300">Welth</span>
+        </p>
 
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <button className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-xl hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 hover:shadow-[0_0_25px_rgba(34,211,238,0.7)] hover:-translate-y-1 transform hover:scale-105">
+            Start Free Trial
+          </button>
+          <span className="text-gray-500 group-hover:text-gray-400 transition-colors duration-300">or</span>
+          <button className="px-8 py-4 border border-gray-700 text-gray-300 font-semibold rounded-xl hover:border-cyan-400 hover:text-cyan-300 transition-all duration-300 hover:shadow-[0_0_20px_rgba(34,211,238,0.3)] hover:scale-105 transform">
+            View All Features
+          </button>
+        </div>
+
+        <p className="text-sm text-white mt-6 group-hover:text-cyan-100 transition-colors duration-300">
+          No credit card required • 14-day free trial • Cancel anytime
+        </p>
+      </div>
+      
+      {/* Animated border glow */}
+      <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-transparent via-cyan-400/0 to-transparent group-hover:via-cyan-400/30 transition-all duration-700 pointer-events-none"></div>
+      
+      {/* Subtle floating particles */}
+      <div className="absolute top-4 right-8 w-2 h-2 bg-cyan-400 rounded-full opacity-0 group-hover:opacity-100 animate-pulse transition-opacity duration-500" style={{animationDelay: '0.5s'}}></div>
+      <div className="absolute bottom-8 left-12 w-1 h-1 bg-blue-500 rounded-full opacity-0 group-hover:opacity-100 animate-pulse transition-opacity duration-500" style={{animationDelay: '1s'}}></div>
+      <div className="absolute top-12 left-8 w-1.5 h-1.5 bg-purple-400 rounded-full opacity-0 group-hover:opacity-100 animate-pulse transition-opacity duration-500" style={{animationDelay: '1.5s'}}></div>
+    </div>
+  </div>
+</section>
     </div>
   )
 }

@@ -88,24 +88,31 @@ export const howItWorksData = [
 // Testimonials Data
 export const testimonialsData = [
   {
-    name: "Sarah Johnson",
-    role: "Small Business Owner",
-    image: "https://randomuser.me/api/portraits/women/75.jpg",
+    name: "David Patel", 
+    role: "Startup Founder",
+    image: "https://randomuser.me/api/portraits/men/32.jpg",
     quote:
-      "Welth has transformed how I manage my business finances. The AI insights have helped me identify cost-saving opportunities I never knew existed.",
+      "ZenCash gave me real-time visibility into our burn rate and cash flow. It’s become an essential tool for keeping our startup financially healthy.",
   },
   {
-    name: "Michael Chen",
-    role: "Freelancer",
-    image: "https://randomuser.me/api/portraits/men/75.jpg",
+    name: "Laura Kim",
+    role: "E-commerce Seller",
+    image: "https://randomuser.me/api/portraits/women/44.jpg",
     quote:
-      "The receipt scanning feature saves me hours each month. Now I can focus on my work instead of manual data entry and expense tracking.",
+      "Managing hundreds of transactions used to be overwhelming. Now I can easily track profits, expenses, and taxes — all in one place.",
   },
   {
-    name: "Emily Rodriguez",
-    role: "Financial Advisor",
-    image: "https://randomuser.me/api/portraits/women/74.jpg",
+    name: "James O'Connor",
+    role: "Consultant",
+    image: "https://randomuser.me/api/portraits/men/41.jpg",
     quote:
-      "I recommend Welth to all my clients. The multi-currency support and detailed analytics make it perfect for international investors.",
+      "ZenCash saves me hours of manual bookkeeping every month. I finally have a clear picture of where my money is going.",
+  },
+  {
+    name: "Sophia Müller",
+    role: "Digital Nomad",
+    image: "https://randomuser.me/api/portraits/women/65.jpg",
+    quote:
+      "Traveling between countries is much easier now. ZenCash’s multi-currency support helps me manage finances without hidden fees or confusion.",
   },
 ];
