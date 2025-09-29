@@ -20,17 +20,7 @@ const serializeTransaction = (obj) => {
 };
 
 export async function getUserAccounts() {
-  // const { userId } = await auth();
-  // if (!userId) throw new Error("Unauthorized");
-
-  // const user = await db.user.findUnique({
-  //   where: { clerkUserId: userId },
-  // });
-
-  // if (!user) {
-  //   throw new Error("User not found");
-  // }
-
+  
   const user = await checkUser();
   if (!user) throw new Error("Unauthorized");
 
@@ -87,13 +77,7 @@ export async function createAccount(data) {
       throw new Error("Request blocked");
     }
 
-    // const user = await db.user.findUnique({
-    //   where: { clerkUserId: userId },
-    // });
-
-    // if (!user) {
-    //   throw new Error("User not found");
-    // }
+   
 
     const user = await checkUser();
     if (!user) {
@@ -145,16 +129,7 @@ export async function createAccount(data) {
 }
 
 export async function getDashboardData() {
-  // const { userId } = await auth();
-  // if (!userId) throw new Error("Unauthorized");
-
-  // const user = await db.user.findUnique({
-  //   where: { clerkUserId: userId },
-  // });
-
-  // if (!user) {
-  //   throw new Error("User not found");
-  // }
+  
 
  
   const user = await checkUser();
