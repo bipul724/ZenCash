@@ -1,15 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import {
-  PieChart,
-  Pie,
-  Cell,
-  ResponsiveContainer,
-  Tooltip,
-  Legend,
-} from "recharts";
-import { format } from "date-fns";
 import { ArrowUpRight, ArrowDownRight } from "lucide-react";
 
 import {
@@ -21,7 +12,6 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { SelectIcon } from "@radix-ui/react-select";
 
 const COLORS = [
   "#FF6B6B",
@@ -32,6 +22,12 @@ const COLORS = [
   "#D4A5A5",
   "#9FA8DA",
 ];
+
+// Simple date formatter (no library needed)
+const formatDate = (date) => {
+  const d = new Date(date);
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+};
 
 export function DashboardOverview({ accounts, transactions }) {
   const [selectedAccountId, setSelectedAccountId] = useState(
@@ -69,17 +65,20 @@ export function DashboardOverview({ accounts, transactions }) {
     return acc;
   }, {});
 
-  // Format data for pie chart
-  const pieChartData = Object.entries(expensesByCategory).map(
-    ([category, amount]) => ({
+  // Calculate total and percentages
+  const totalExpenses = Object.values(expensesByCategory).reduce((sum, val) => sum + val, 0);
+  const expenseData = Object.entries(expensesByCategory).map(
+    ([category, amount], index) => ({
       name: category,
       value: amount,
+      percentage: ((amount / totalExpenses) * 100).toFixed(1),
+      color: COLORS[index % COLORS.length]
     })
   );
 
   return (
     <div className="grid gap-4 md:grid-cols-2">
-      {/* Recent Transactions Card (Left side card on the screen)*/}
+      {/* Recent Transactions Card */}
       <Card className="bg-black border-gray-800 text-white">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
           <CardTitle className="text-base text-yellow-400 font-normal">
@@ -99,7 +98,6 @@ export function DashboardOverview({ accounts, transactions }) {
               "
             >
               <SelectValue placeholder="Select account" />
-              
             </SelectTrigger>
             <SelectContent>
               {accounts.map((account) => (
@@ -127,7 +125,7 @@ export function DashboardOverview({ accounts, transactions }) {
                       {transaction.description || "Untitled Transaction"}
                     </p>
                     <p className="text-sm text-muted-foreground">
-                      {format(new Date(transaction.date), "PP")}
+                      {formatDate(transaction.date)}
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
@@ -154,49 +152,54 @@ export function DashboardOverview({ accounts, transactions }) {
         </CardContent>
       </Card>
 
-      {/* Expense Breakdown Card (Right side card on the screen)*/}
-      <Card className="bg-black border-gray-800 ">
+      {/* Expense Breakdown Card - CSS Bar Chart Instead of Recharts */}
+      <Card className="bg-black border-gray-800">
         <CardHeader>
           <CardTitle className="text-base text-orange-400 font-normal">
             Monthly Expense Breakdown
           </CardTitle>
         </CardHeader>
-        <CardContent className="p-0 pb-5">
-          {pieChartData.length === 0 ? (
+        <CardContent>
+          {expenseData.length === 0 ? (
             <p className="text-center text-yellow-400 text-muted-foreground py-4">
               No expenses this month
             </p>
           ) : (
-            <div className="h-[300px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={pieChartData}
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={80}
-                    fill="#8884d8"
-                    dataKey="value"
-                    label={({ name, value }) => `${name}: $${value.toFixed(2)}`}
-                  >
-                    {pieChartData.map((entry, index) => (
-                      <Cell
-                        key={`cell-${index}`}
-                        fill={COLORS[index % COLORS.length]}
+            <div className="space-y-4">
+              {/* Total */}
+              <div className="flex items-center justify-between pb-2 border-b border-gray-800">
+                <span className="text-sm text-muted-foreground">Total Expenses</span>
+                <span className="text-lg font-bold text-white">${totalExpenses.toFixed(2)}</span>
+              </div>
+
+              {/* Category Bars */}
+              <div className="space-y-3">
+                {expenseData.map((item) => (
+                  <div key={item.name} className="space-y-1">
+                    <div className="flex items-center justify-between text-sm">
+                      <div className="flex items-center gap-2">
+                        <div 
+                          className="w-3 h-3 rounded-full"
+                          style={{ backgroundColor: item.color }}
+                        />
+                        <span className="text-white">{item.name}</span>
+                      </div>
+                      <span className="text-muted-foreground">
+                        ${item.value.toFixed(2)} ({item.percentage}%)
+                      </span>
+                    </div>
+                    <div className="w-full bg-gray-800 rounded-full h-2">
+                      <div
+                        className="h-2 rounded-full transition-all duration-500"
+                        style={{ 
+                          width: `${item.percentage}%`,
+                          backgroundColor: item.color
+                        }}
                       />
-                    ))}
-                  </Pie>
-                  <Tooltip
-                    formatter={(value) => `$${value.toFixed(2)}`}
-                    contentStyle={{
-                      backgroundColor: "hsl(var(--popover))",
-                      border: "1px solid hsl(var(--border))",
-                      borderRadius: "var(--radius)",
-                    }}
-                  />
-                  <Legend />
-                </PieChart>
-              </ResponsiveContainer>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
         </CardContent>
