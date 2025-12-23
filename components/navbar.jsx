@@ -36,19 +36,19 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <div className="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b border-gray-800">
+    <div className="fixed top-0 w-full bg-white/90 backdrop-blur-md z-50 border-b border-gray-200 shadow-sm">
       <Navbar>
         {/* Desktop Navigation */}
         <NavBody>
           <NavbarLogo>
             <Link href="/">
-          <Image
-            src="/cover1.png"
-            alt="Logo"
-            width={100}
-            height={100}
-          />
-        </Link>
+              <Image
+                src="/cover1.png"
+                alt="Logo"
+                width={100}
+                height={100}
+              />
+            </Link>
           </NavbarLogo>
 
           {/* Static nav items */}
@@ -112,7 +112,7 @@ export default function Header() {
                 key={`mobile-link-${idx}`}
                 href={item.link}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="relative text-neutral-200">
+                className="relative text-gray-700">
                 <span className="block">{item.name}</span>
               </a>
             ))}

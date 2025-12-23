@@ -13,15 +13,15 @@ import { DashboardOverview } from './_components/transaction-overview';
 // Empty state component
 const EmptyAccountsState = () => (
   <div className="col-span-full">
-    <Card className="border-gray-800 bg-black/50">
+    <Card className="border-gray-200 bg-white shadow-sm">
       <CardContent className="flex flex-col items-center justify-center py-16 text-center">
-        <div className="rounded-full bg-cyan-400/10 p-4 mb-4">
-          <Plus className="h-8 w-8 text-cyan-400" />
+        <div className="rounded-full bg-blue-100 p-4 mb-4">
+          <Plus className="h-8 w-8 text-blue-600" />
         </div>
-        <h3 className="text-lg font-semibold text-white mb-2">
+        <h3 className="text-lg font-semibold text-gray-900 mb-2">
           No Accounts Yet
         </h3>
-        <p className="text-sm text-muted-foreground mb-6 max-w-sm">
+        <p className="text-sm text-gray-500 mb-6 max-w-sm">
           Get started by creating your first account to track your finances
         </p>
       </CardContent>
@@ -60,10 +60,10 @@ const DashboardPage = async () => {
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <CreateAccountDrawer>
-          <Card className="hover:shadow-md bg-black border-gray-800 transition-shadow cursor-pointer border-dashed">
-            <CardContent className="flex flex-col items-center justify-center text-muted-foreground h-full pt-5">
-              <Plus className="h-10 w-10 mb-2 text-cyan-400" />
-              <p className="text-sm font-medium text-white">Add New Account</p>
+          <Card className="hover:shadow-lg bg-white border-gray-200 transition-shadow cursor-pointer border-dashed hover:border-blue-300">
+            <CardContent className="flex flex-col items-center justify-center text-gray-500 h-full pt-5">
+              <Plus className="h-10 w-10 mb-2 text-blue-500" />
+              <p className="text-sm font-medium text-gray-700">Add New Account</p>
             </CardContent>
           </Card>
         </CreateAccountDrawer>

@@ -14,13 +14,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
 const COLORS = [
-  "#FF6B6B",
-  "#4ECDC4",
-  "#45B7D1",
-  "#96CEB4",
-  "#FFEEAD",
-  "#D4A5A5",
-  "#9FA8DA",
+  "#3B82F6",
+  "#10B981",
+  "#8B5CF6",
+  "#F59E0B",
+  "#EF4444",
+  "#EC4899",
+  "#06B6D4",
 ];
 
 // Simple date formatter (no library needed)
@@ -79,27 +79,26 @@ export function DashboardOverview({ accounts, transactions }) {
   return (
     <div className="grid gap-4 md:grid-cols-2">
       {/* Recent Transactions Card */}
-      <Card className="bg-black border-gray-800 text-white">
+      <Card className="bg-white border-gray-200 shadow-sm">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
-          <CardTitle className="text-base text-yellow-400 font-normal">
+          <CardTitle className="text-base text-blue-600 font-medium">
             Recent Transactions
           </CardTitle>
           <Select
             value={selectedAccountId}
             onValueChange={setSelectedAccountId}
           >
-            <SelectTrigger 
+            <SelectTrigger
               className="
                 w-[200px]
-                bg-gray-800 text-white border border-gray-700
-                focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/70
-                focus:shadow-[0_0_12px_2px_rgba(34,211,238,0.8)]
+                bg-white text-gray-700 border border-gray-300
+                focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30
                 transition-all duration-300
               "
             >
               <SelectValue placeholder="Select account" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-white border-gray-200">
               {accounts.map((account) => (
                 <SelectItem key={account.id} value={account.id}>
                   {account.name}
@@ -111,7 +110,7 @@ export function DashboardOverview({ accounts, transactions }) {
         <CardContent>
           <div className="space-y-4">
             {recentTransactions.length === 0 ? (
-              <p className="text-center text-muted-foreground py-4">
+              <p className="text-center text-gray-500 py-4">
                 No recent transactions
               </p>
             ) : (
@@ -121,17 +120,17 @@ export function DashboardOverview({ accounts, transactions }) {
                   className="flex items-center justify-between"
                 >
                   <div className="space-y-1">
-                    <p className="text-sm font-medium leading-none">
+                    <p className="text-sm font-medium leading-none text-gray-900">
                       {transaction.description || "Untitled Transaction"}
                     </p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm text-gray-500">
                       {formatDate(transaction.date)}
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
                     <div
                       className={cn(
-                        "flex items-center",
+                        "flex items-center font-medium",
                         transaction.type === "EXPENSE"
                           ? "text-red-500"
                           : "text-green-500"
@@ -153,23 +152,23 @@ export function DashboardOverview({ accounts, transactions }) {
       </Card>
 
       {/* Expense Breakdown Card - CSS Bar Chart Instead of Recharts */}
-      <Card className="bg-black border-gray-800">
+      <Card className="bg-white border-gray-200 shadow-sm">
         <CardHeader>
-          <CardTitle className="text-base text-orange-400 font-normal">
+          <CardTitle className="text-base text-purple-600 font-medium">
             Monthly Expense Breakdown
           </CardTitle>
         </CardHeader>
         <CardContent>
           {expenseData.length === 0 ? (
-            <p className="text-center text-yellow-400 text-muted-foreground py-4">
+            <p className="text-center text-blue-600 py-4">
               No expenses this month
             </p>
           ) : (
             <div className="space-y-4">
               {/* Total */}
-              <div className="flex items-center justify-between pb-2 border-b border-gray-800">
-                <span className="text-sm text-muted-foreground">Total Expenses</span>
-                <span className="text-lg font-bold text-white">${totalExpenses.toFixed(2)}</span>
+              <div className="flex items-center justify-between pb-2 border-b border-gray-200">
+                <span className="text-sm text-gray-500">Total Expenses</span>
+                <span className="text-lg font-bold text-gray-900">${totalExpenses.toFixed(2)}</span>
               </div>
 
               {/* Category Bars */}
@@ -178,20 +177,20 @@ export function DashboardOverview({ accounts, transactions }) {
                   <div key={item.name} className="space-y-1">
                     <div className="flex items-center justify-between text-sm">
                       <div className="flex items-center gap-2">
-                        <div 
+                        <div
                           className="w-3 h-3 rounded-full"
                           style={{ backgroundColor: item.color }}
                         />
-                        <span className="text-white">{item.name}</span>
+                        <span className="text-gray-700">{item.name}</span>
                       </div>
-                      <span className="text-muted-foreground">
+                      <span className="text-gray-500">
                         ${item.value.toFixed(2)} ({item.percentage}%)
                       </span>
                     </div>
-                    <div className="w-full bg-gray-800 rounded-full h-2">
+                    <div className="w-full bg-gray-100 rounded-full h-2">
                       <div
                         className="h-2 rounded-full transition-all duration-500"
-                        style={{ 
+                        style={{
                           width: `${item.percentage}%`,
                           backgroundColor: item.color
                         }}

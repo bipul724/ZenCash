@@ -63,10 +63,10 @@ export function BudgetProgress({ initialBudget, currentExpenses }) {
   }, [error]);
 
   return (
-    <Card className="bg-black border-gray-800 text-white">
+    <Card className="bg-white border-gray-200 shadow-sm">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <div className="flex-1">
-          <CardTitle className="text-sm font-medium text-yellow-400">
+          <CardTitle className="text-sm font-medium text-blue-600">
             Monthly Budget (Default Account)
           </CardTitle>
           <div className="flex items-center gap-2 mt-1">
@@ -76,7 +76,7 @@ export function BudgetProgress({ initialBudget, currentExpenses }) {
                   type="number"
                   value={newBudget}
                   onChange={(e) => setNewBudget(e.target.value)}
-                  className="w-32"
+                  className="w-32 border-gray-300 focus:border-blue-500"
                   placeholder="Enter amount"
                   autoFocus
                   disabled={isLoading}
@@ -100,20 +100,20 @@ export function BudgetProgress({ initialBudget, currentExpenses }) {
               </div>
             ) : (
               <>
-                <CardDescription>
+                <CardDescription className="text-gray-600">
                   {initialBudget
                     ? `$${currentExpenses.toFixed(
-                        2
-                      )} of $${initialBudget.amount.toFixed(2)} spent`
+                      2
+                    )} of $${initialBudget.amount.toFixed(2)} spent`
                     : "No budget set"}
                 </CardDescription>
                 <Button
                   variant="ghost"
                   size="icon"
                   onClick={() => setIsEditing(true)}
-                  className="h-6 w-6"
+                  className="h-6 w-6 hover:bg-blue-50"
                 >
-                  <Pencil className="h-3 w-3 text-cyan-400" />
+                  <Pencil className="h-3 w-3 text-blue-500" />
                 </Button>
               </>
             )}
@@ -125,17 +125,16 @@ export function BudgetProgress({ initialBudget, currentExpenses }) {
           <div className="space-y-2">
             <div className="w-full bg-gray-200 rounded-full h-2.5">
               <div
-                className={`h-2.5 rounded-full transition-all ${
-                  percentUsed >= 90
+                className={`h-2.5 rounded-full transition-all ${percentUsed >= 90
                     ? "bg-red-500"
                     : percentUsed >= 75
-                    ? "bg-yellow-500"
-                    : "bg-green-500"
-                }`}
+                      ? "bg-yellow-500"
+                      : "bg-green-500"
+                  }`}
                 style={{ width: `${Math.min(percentUsed, 100)}%` }}
               />
             </div>
-            <p className="text-xs text-white text-muted-foreground text-right">
+            <p className="text-xs text-gray-500 text-right">
               {percentUsed.toFixed(1)}% used
             </p>
           </div>
